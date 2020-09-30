@@ -8,7 +8,6 @@
 
 RenderManager::RenderManager(size_t typeId) : ComponentManager(typeId)
 {
-    components.reserve(maxEntitiesCount);
     RenderComponent::typeId = typeId;
 }
 

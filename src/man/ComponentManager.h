@@ -2,14 +2,19 @@
 
 #include <utils/aliases.h>
 
+#include <utils/global.h>
+
 class EntityManager;
 
 class ComponentManager
 {
 public:
-    ComponentManager(size_t typeId) { this->typeId = typeId; }
+    ComponentManager(size_t typeId) { 
+        components.reserve(maxEntitiesCount);
+        this->typeId = typeId;
+    }
     virtual ~ComponentManager() {}
-//EntityManager& entityManager
+
     virtual void update(EntityManager& entityManager) = 0;
     template <typename TCMP> TCMP& addComponent(size_t idEntity);
 

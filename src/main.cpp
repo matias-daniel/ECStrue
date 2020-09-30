@@ -14,9 +14,13 @@ int main()
     entityManager.addManager<RenderManager>();
     entityManager.addManager<PhysicsManager>();
 
-    size_t entity0 = entityManager.addEntity();
-    size_t entity1 = entityManager.addEntity();
+    
 
+    size_t entity0 = entityManager.addEntity();
+    size_t* walls = new size_t[10];
+
+    for (size_t i = 0; i < 10; ++i) { entityManager.addEntity(); }
+    
     {
         auto& renCmp = entityManager.addComponent<RenderComponent>(entity0);
         renCmp.x = 5;
@@ -27,37 +31,36 @@ int main()
         phyCmp.x = 5;
         phyCmp.y = 5;
         phyCmp.vx = 0;
-
-        auto& boxCmp = entityManager.addComponent<CollideBoxComponent>(entity0);
-        boxCmp.x = 5;
-        boxCmp.y = 5;
-        boxCmp.w = 1;
-        boxCmp.y = 0;
     }
 
+    for (size_t i = 0; i < 10; ++i)
     {
-        auto& renCmp = entityManager.addComponent<RenderComponent>(entity1);
-        renCmp.x = 10;
+        size_t idWall = i + entityManager.idCountManagers;
+
+        auto& renCmp = entityManager.addComponent<RenderComponent>(idWall);
+        renCmp.x = 10 + i;
         renCmp.y = 5;
         renCmp.c = 'W';
 
-        auto& phyCmp = entityManager.addComponent<PhysicsComponent>(entity1);
-        phyCmp.x = 10;
+        auto& phyCmp = entityManager.addComponent<PhysicsComponent>(idWall);
+        phyCmp.x = 10 + i;
         phyCmp.y = 5;
         phyCmp.vx = 0;
-        
-        auto& boxCmp = entityManager.addComponent<CollideBoxComponent>(entity1);
-        boxCmp.x = 10;
-        boxCmp.y = 5;
-        boxCmp.w = 0;
-        boxCmp.y = 0;
     }
+
+    auto& phyCmp = entityManager.getComponent<PhysicsComponent>(entity0);
 
     while (!Input::isKeyPressed(VK_ESCAPE))
     {
         Console::Clear();
+
+        phyCmp.vx = (Input::isKeyPressed('D') - Input::isKeyPressed('A'));
+        phyCmp.vy = (Input::isKeyPressed('S') - Input::isKeyPressed('W'));
+
         entityManager.update();
     }
+    
+    Console::Clear();
 
     return 0;
 }

@@ -2,6 +2,7 @@
 
 #include <utils/global.h>
 #include <algorithm>
+#include <utils/debug.h>
 
 EntityManager::EntityManager()
 {

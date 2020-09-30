@@ -43,7 +43,7 @@ info:
 	$(info $(OBJFILES))
 
 clean:
-	rm -f -r $(OBJFILES) $(APP)
+	rm -f -r obj/ $(APP)
 
 rebuild: clean $(APP)
 
